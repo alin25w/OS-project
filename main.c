@@ -9,7 +9,6 @@
 #include <errno.h>
 #include <libgen.h>
 #include <time.h>
-#include <stdbool.h>
 
 
 #define MAX_PATH_LENGTH 256 
@@ -39,15 +38,15 @@ void counter_line(char *filename){
     fclose(fp);
 }
 
-bool CheckCFile(char *filepath){
+int CheckCFile(char *filepath){
 
     //reach .something and check if .c
     char *extp = strrchr(filepath,'.');
     if(extp && !strcmp(extp,".c")){
         
-        return true;
+        return 1;
     }
-    return false;
+    return 0;
 }
 
 void PrintAccessRights(mode_t mode){
