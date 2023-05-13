@@ -557,7 +557,7 @@ int main(int argc, char *argv[])
 
         close(pfd[0]);
 
-        //wait for processes to finish and print with parent
+        //wait for processes to finish and have the parent print
 
         sleep(1);
         int pid_Child;
