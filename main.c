@@ -509,7 +509,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    int PID, status;
+    int pid, status;
 
     for(int i = 1; i < argc; i++){
 
@@ -521,12 +521,12 @@ int main(int argc, char *argv[])
 	    }
 
 
-        if((PID = fork()) < 0){
+        if((pid = fork()) < 0){
             
             perror("Process creation error\n");
                 exit(i);
         }
-        else if(PID == 0){
+        else if(pid == 0){
             //child#1
             FirstChildProcess(argv[i]);
             exit(i);
@@ -534,12 +534,12 @@ int main(int argc, char *argv[])
         }
         //parent
 
-        if((PID = fork()) < 0){
+        if((pid = fork()) < 0){
            
             perror("Process creation error\n");
             exit(i);
         }
-        else if(PID == 0){
+        else if(pid == 0){
             //child#2
             SecondChildProcess(argv[i],pfd);
             exit(i);
@@ -560,27 +560,29 @@ int main(int argc, char *argv[])
         //wait for processes to finish and print with parent
 
         sleep(1);
-        int PID_Child;
-        PID_Child = wait(&status);
-        if(PID_Child < 0){
+        int pid_Child;
+        pid_Child = wait(&status);
+        if(pid_Child < 0){
             
-            perror("Error at PID_Child");
+            perror("Error at pid_Child#1");
             exit(i);
         }
+        //if exited normally print pid
         if(WIFEXITED(status)){
             
-            printf("Process with PID %d ended with status %d\n\n", PID_Child, WIFEXITED(status));
+            printf("Process with pid %d ended with the exit code %d\n\n", pid_Child, WIFEXITED(status));
         }
 
-        PID_Child = wait(&status);
-        if(PID_Child < 0){
+        pid_Child = wait(&status);
+        if(pid_Child < 0){
             
-            perror("Error!");
+            perror("Errorr at pid_CHILD#2");
             exit(i);
         }
+        //if exited normally print pid
         if(WIFEXITED(status)){
             
-            printf("Process with PID %d ended with status %d\n", PID_Child, WIFEXITED(status));
+            printf("Process with pid %d ended with the exit code %d\n", pid_Child, WIFEXITED(status));
         }
 
         sleep(1);
